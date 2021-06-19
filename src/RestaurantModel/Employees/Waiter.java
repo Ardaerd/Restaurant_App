@@ -28,4 +28,8 @@ public class Waiter extends Employee {
 
         return expense;
     }
+
+    public ArrayList<Order> getOrdersReceived() {
+        return ordersReceived;
+    }
 }
