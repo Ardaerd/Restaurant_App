@@ -21,10 +21,7 @@ public abstract class Product implements Expense {
 
     @Override
     public String toString() {
-        return "Name:'" + name + "\n" +
-                "Purchase Price: " + purchasePrice + "\n" +
-                "Selling Price: " + sellingPrice + "\n" +
-                "Utility Cost: " + utilityCost + "\n";
+        return name;
     }
 
     public void setName(String name) {
