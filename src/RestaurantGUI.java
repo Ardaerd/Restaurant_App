@@ -1,8 +1,12 @@
+import RestaurantModel.Employees.Employee;
+import RestaurantModel.Employees.Orders.Order;
 import RestaurantModel.Employees.Orders.Products.Product;
+import RestaurantModel.Employees.Waiter;
 import RestaurantModel.Restaurant;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +23,9 @@ public class RestaurantGUI extends JPanel {
     private JButton newOrder;
     private Restaurant restaurant;
     private GridBagConstraints gbc = new GridBagConstraints();
+    private JTable orderTable;
+    private JScrollPane sp;
+    static Waiter waiter;
 
     public RestaurantGUI(int size) {
         // Initializing components
@@ -43,6 +50,7 @@ public class RestaurantGUI extends JPanel {
                             orderPanel.remove(newOrder);
                             orderPanel.add(createOrderPanel);
                         }
+                        RestaurantGUI.waiter = restaurant.assignWaiter();
                         String str = "Hi, I am " + restaurant.assignWaiter().getName() + ".\n" +
                                 "What would you like to order?";
                         JOptionPane.showMessageDialog(null,str);
@@ -59,12 +67,12 @@ public class RestaurantGUI extends JPanel {
         addProductPanel.setBorder(new TitledBorder("Add Product"));
         currentOrderPanel.setBorder(new TitledBorder("Current Orders"));
 
-//        addProductPanel.setSize(200,200);
+        // Setting Panel's size
         addProductPanel.setPreferredSize(new Dimension(size-50,(size/2)-150));
         addProductPanel.setMaximumSize(new Dimension(size-50,(size/2)-150));
-        currentOrderPanel.setPreferredSize(new Dimension(size-50,size/2 + 50));
-        
+        currentOrderPanel.setPreferredSize(new Dimension(size-50,size/2 + 65));
 
+        // Adding components to the Product Panel
         JLabel productLabel = new JLabel("Product:");
         JLabel countLabel = new JLabel("Count:");
         JLabel priceLabel = new JLabel("Price:");
@@ -93,15 +101,12 @@ public class RestaurantGUI extends JPanel {
                 });
 
         addProductPanel.setLayout(new GridBagLayout());
-//
-////
+
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
 
         gbc.weightx = 13.0;
         gbc.weighty = 13.0;
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
-//
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         addGB(productLabel,0,0);
@@ -126,11 +131,43 @@ public class RestaurantGUI extends JPanel {
         addGB(perProductPrice,1,2);
 
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        gbc.ipadx = 100;
+        gbc.ipadx = 180;
         addGB(add,1,8);
 
+        // Current Order Panel
+        currentOrderPanel.setLayout(new BorderLayout());
 
-        
+        // Column names for JTable
+        String[] columnNames = {"Product Name", "Count", "Price"};
+        String[][] orders = new String[3][3];
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
+
+        // ActionListener for the add button
+        add.addActionListener(
+                new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String productName = ((Product) selectProduct.getSelectedItem()).getName();
+                        int count = (Integer) spinner.getValue();
+                        double price = ((Product) selectProduct.getSelectedItem()).getSellingPrice()*count;
+                        String strPrice = String.format("%s",price);
+                        String strCount = String.format("%s",count);
+
+                        String[] str = {productName,strCount,strPrice};
+
+                        tableModel.addRow(str);
+                    }
+                });
+
+        orderTable = new JTable(tableModel);
+
+        sp = new JScrollPane(orderTable);
+
+
+        currentOrderPanel.add(sp,BorderLayout.CENTER);
+
+        // Add panels to the create order panel
         createOrderPanel.add(addProductPanel, BorderLayout.NORTH);
         createOrderPanel.add(currentOrderPanel, BorderLayout.SOUTH);
 
