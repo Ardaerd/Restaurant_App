@@ -70,14 +70,14 @@ public class RestaurantGUI extends JPanel {
         // Setting Panel's size
         addProductPanel.setPreferredSize(new Dimension(size-50,(size/2)-150));
         addProductPanel.setMaximumSize(new Dimension(size-50,(size/2)-150));
-        currentOrderPanel.setPreferredSize(new Dimension(size-50,size/2 + 65));
+        currentOrderPanel.setPreferredSize(new Dimension(size-50,size/2 + 30));
 
         // Adding components to the Product Panel
         JLabel productLabel = new JLabel("Product:");
         JLabel countLabel = new JLabel("Count:");
         JLabel priceLabel = new JLabel("Price:");
         JComboBox selectProduct = new JComboBox();
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(0,0,100,1));
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1,1,100,1));
         JButton add = new JButton("Add");
 
         selectProduct.setSize(50,50);
@@ -141,6 +141,7 @@ public class RestaurantGUI extends JPanel {
         String[] columnNames = {"Product Name", "Count", "Price"};
         String[][] orders = new String[3][3];
         DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
+        Order order = new Order();
 
         // ActionListener for the add button
         add.addActionListener(
@@ -157,6 +158,8 @@ public class RestaurantGUI extends JPanel {
                         String[] str = {productName,strCount,strPrice};
 
                         tableModel.addRow(str);
+
+                        order.addProduct((Product) selectProduct.getSelectedItem());
                     }
                 });
 
@@ -164,12 +167,26 @@ public class RestaurantGUI extends JPanel {
 
         sp = new JScrollPane(orderTable);
 
-
         currentOrderPanel.add(sp,BorderLayout.CENTER);
+
+        // For resize the finalize button
+        JButton finalize = new JButton("Finalize");
+        JPanel finalizePanel = new JPanel();
+
+        finalizePanel.setLayout(new GridBagLayout());
+
+        gbc.insets = new Insets(7,0,0,0);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+        gbc.ipadx = 20;
+        gbc.ipady = 2;
+        finalizePanel.add(finalize,gbc);
 
         // Add panels to the create order panel
         createOrderPanel.add(addProductPanel, BorderLayout.NORTH);
-        createOrderPanel.add(currentOrderPanel, BorderLayout.SOUTH);
+        createOrderPanel.add(currentOrderPanel, BorderLayout.CENTER);
+        createOrderPanel.add(finalizePanel, BorderLayout.SOUTH);
+
+
 
         // Add panels to the tabPanel
         tabPanel.addTab("Order",orderPanel);
