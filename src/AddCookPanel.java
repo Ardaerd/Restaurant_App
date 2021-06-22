@@ -58,7 +58,7 @@ public class AddCookPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 restaurant.addCook(enterName.getText(), Double.parseDouble(enterSalary.getText()));
-                JOptionPane.showMessageDialog(null,"Cook added successfully");
+                JOptionPane.showMessageDialog(null,"Cook is added successfully");
             }
         });
     }
