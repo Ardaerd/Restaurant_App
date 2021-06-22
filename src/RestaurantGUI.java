@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RestaurantGUI extends JPanel {
-    public static JPanel orderPanel;
-    private JPanel restaurantPanel;
+    public static JPanel orderPanel;  //  panel which have a new order button
+    private RestaurantPanel restaurantPanel;
     private JTabbedPane tabPanel;
     public static JButton newOrder;
     private Restaurant restaurant;
@@ -19,10 +19,10 @@ public class RestaurantGUI extends JPanel {
     public RestaurantGUI() {
         // Initializing components
         orderPanel = new JPanel();
-        restaurantPanel = new JPanel();
         tabPanel = new JTabbedPane();
-        tabPanel.setPreferredSize(new Dimension(main.SIZE-20,main.SIZE-40));
+        tabPanel.setPreferredSize(new Dimension(main.SIZE-20,main.SIZE-50));
         restaurant = new Restaurant();
+        restaurantPanel = new RestaurantPanel(restaurant);
 
         add(tabPanel);
 
