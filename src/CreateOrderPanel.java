@@ -39,8 +39,8 @@ public class CreateOrderPanel extends JPanel {
         currentOrderPanel.setBorder(new TitledBorder("Current Orders"));
 
         // Setting size of sub-Panels
-        addProductPanel.setPreferredSize(new Dimension(main.SIZE-50,(main.SIZE/2)-150));
-        currentOrderPanel.setPreferredSize(new Dimension(main.SIZE-50,(main.SIZE/2) + 30));
+        addProductPanel.setPreferredSize(new Dimension(main.WIDTH-50,(main.HEIGHT/2)-120));
+        currentOrderPanel.setPreferredSize(new Dimension(main.WIDTH-50,(main.HEIGHT/2)));
 
         // Adding components to the Product Panel
         productLabel = new JLabel("Product:");
@@ -168,7 +168,7 @@ public class CreateOrderPanel extends JPanel {
         gbc.insets = new Insets(7,0,0,0);
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
         gbc.ipadx = 20;
-        gbc.ipady = 2;
+        gbc.ipady = 1;
         finalizePanel.add(finalize,gbc);
 
         // Adding actionListener to create an order when you clicked finalize button
