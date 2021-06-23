@@ -15,6 +15,7 @@ public class RestaurantPanel extends JPanel {
     private ListEmployeePanel listEmployeePanel;      // panel for listEmployee button
     private AddCookPanel addCookPanel;               // panel for adding cook
     private AddWaiterPanel addWaiterPanel;          // panel for adding waiter
+    private CalculateExpensesPanel calculateExpensesPanel;  // Panel for showing financial information
     private boolean clickedListButton;             // if list employeeButton is clicked, it is true
     private boolean clickedAddCook;               // if add cook button is clicked, it is true
     private boolean clickedAddWaiter;            // if add waiter button is clicked, it is true
@@ -41,6 +42,34 @@ public class RestaurantPanel extends JPanel {
         addWaiterButton = new JButton("Add Waiter");
         calculateExpensesButton = new JButton("Calculate Expenses");
 
+        // Adding actionListener to the calculateExpensesButton which in the buttonPanel
+        calculateExpensesButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove panel according to which one is clicked before this button
+                if (clickedListButton)
+                    actionPanel.remove(listEmployeePanel);
+                else if (clickedAddCook)
+                    actionPanel.remove(addCookPanel);
+                else if (clickedAddWaiter)
+                    actionPanel.remove(addWaiterPanel);
+                else if (clickedCalculateExpense)
+                    actionPanel.remove(calculateExpensesPanel);
+
+                calculateExpensesPanel = new CalculateExpensesPanel(restaurant);
+                actionPanel.add(calculateExpensesPanel);
+                actionPanel.repaint();
+                actionPanel.revalidate();
+
+                // ClickedCalculateExpenses is true and others are false
+                clickedCalculateExpense = true;
+                clickedAddWaiter = false;
+                clickedListButton = false;
+                clickedAddCook = false;
+            }
+        });
+
         // Adding actionListener to the addWaiterButton which in the buttonPanel
         addWaiterButton.addActionListener(new ActionListener() {
             @Override
@@ -52,9 +81,8 @@ public class RestaurantPanel extends JPanel {
                     actionPanel.remove(addCookPanel);
                 else if (clickedAddWaiter)
                     actionPanel.remove(addWaiterPanel);
-                else if (clickedCalculateExpense) {
-
-                }
+                else if (clickedCalculateExpense)
+                    actionPanel.remove(calculateExpensesPanel);
 
                 addWaiterPanel = new AddWaiterPanel(restaurant);
                 actionPanel.add(addWaiterPanel);
@@ -82,9 +110,8 @@ public class RestaurantPanel extends JPanel {
                             actionPanel.remove(addCookPanel);
                         else if (clickedAddWaiter)
                             actionPanel.remove(addWaiterPanel);
-                        else if (clickedCalculateExpense) {
-
-                        }
+                        else if (clickedCalculateExpense)
+                            actionPanel.remove(calculateExpensesPanel);
 
                         listEmployeePanel = new ListEmployeePanel(restaurant);
                         actionPanel.add(listEmployeePanel);
@@ -112,9 +139,8 @@ public class RestaurantPanel extends JPanel {
                             actionPanel.remove(addCookPanel);
                         else if (clickedAddWaiter)
                             actionPanel.remove(addWaiterPanel);
-                        else if (clickedCalculateExpense) {
-
-                        }
+                        else if (clickedCalculateExpense)
+                            actionPanel.remove(calculateExpensesPanel);
 
                         addCookPanel = new AddCookPanel(restaurant);
                         actionPanel.add(addCookPanel);
