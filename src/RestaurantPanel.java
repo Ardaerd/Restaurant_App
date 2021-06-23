@@ -1,10 +1,6 @@
-import RestaurantModel.Employees.Cook;
-import RestaurantModel.Employees.Employee;
-import RestaurantModel.Employees.Waiter;
-import RestaurantModel.Restaurant;
 
+import RestaurantModel.Restaurant;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +12,22 @@ public class RestaurantPanel extends JPanel {
     private JButton calculateExpensesButton;
     private JPanel buttonPanel;  // only cover the buttons
     private JPanel actionPanel;  // panel which have buttons action
-    private ListEmployeePanel listEmployeePanel;  // panel for listEmployee button
-    private boolean listEmployeeClicked;          // if list employeeButton is clicked, it is true
+    private ListEmployeePanel listEmployeePanel;      // panel for listEmployee button
+    private AddCookPanel addCookPanel;               // panel for adding cook
+    private AddWaiterPanel addWaiterPanel;          // panel for adding waiter
+    private CalculateExpensesPanel calculateExpensesPanel;  // Panel for showing financial information
+    private boolean clickedListButton;             // if list employeeButton is clicked, it is true
+    private boolean clickedAddCook;               // if add cook button is clicked, it is true
+    private boolean clickedAddWaiter;            // if add waiter button is clicked, it is true
+    private boolean clickedCalculateExpense;    // if calculate expense button is clicked, it is true
 
 
     public RestaurantPanel(Restaurant restaurant) {
         // Initializing click statement
-        listEmployeeClicked = false;
+        clickedListButton = false;
+        clickedAddCook = false;
+        clickedAddWaiter = false;
+        clickedCalculateExpense = false;
 
         // Setting layout for RestaurantPanel
         setLayout(new BorderLayout());
@@ -37,20 +42,116 @@ public class RestaurantPanel extends JPanel {
         addWaiterButton = new JButton("Add Waiter");
         calculateExpensesButton = new JButton("Calculate Expenses");
 
-        // Adding actionListener to the buttons which in the buttonPanel
+        // Adding actionListener to the calculateExpensesButton which in the buttonPanel
+        calculateExpensesButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove panel according to which one is clicked before this button
+                if (clickedListButton)
+                    actionPanel.remove(listEmployeePanel);
+                else if (clickedAddCook)
+                    actionPanel.remove(addCookPanel);
+                else if (clickedAddWaiter)
+                    actionPanel.remove(addWaiterPanel);
+                else if (clickedCalculateExpense)
+                    actionPanel.remove(calculateExpensesPanel);
+
+                calculateExpensesPanel = new CalculateExpensesPanel(restaurant);
+                actionPanel.add(calculateExpensesPanel);
+                actionPanel.repaint();
+                actionPanel.revalidate();
+
+                // ClickedCalculateExpenses is true and others are false
+                clickedCalculateExpense = true;
+                clickedAddWaiter = false;
+                clickedListButton = false;
+                clickedAddCook = false;
+            }
+        });
+
+        // Adding actionListener to the addWaiterButton which in the buttonPanel
+        addWaiterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // remove panel according to which one is clicked before this button
+                if (clickedListButton)
+                    actionPanel.remove(listEmployeePanel);
+                else if (clickedAddCook)
+                    actionPanel.remove(addCookPanel);
+                else if (clickedAddWaiter)
+                    actionPanel.remove(addWaiterPanel);
+                else if (clickedCalculateExpense)
+                    actionPanel.remove(calculateExpensesPanel);
+
+                addWaiterPanel = new AddWaiterPanel(restaurant);
+                actionPanel.add(addWaiterPanel);
+                actionPanel.repaint();
+                actionPanel.revalidate();
+
+                // ClickedListButton is true and others are false
+                clickedAddWaiter = true;
+                clickedListButton = false;
+                clickedAddCook = false;
+                clickedCalculateExpense = false;
+            }
+        });
+
+        // Adding actionListener to the listEmployeeButton which in the buttonPanel
         listEmployeeButton.addActionListener(
                 new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if(listEmployeeClicked) {
+                        // remove panel according to which one is clicked before this button
+                        if (clickedListButton)
                             actionPanel.remove(listEmployeePanel);
-                        }
+                        else if (clickedAddCook)
+                            actionPanel.remove(addCookPanel);
+                        else if (clickedAddWaiter)
+                            actionPanel.remove(addWaiterPanel);
+                        else if (clickedCalculateExpense)
+                            actionPanel.remove(calculateExpensesPanel);
+
                         listEmployeePanel = new ListEmployeePanel(restaurant);
                         actionPanel.add(listEmployeePanel);
                         actionPanel.repaint();
                         actionPanel.revalidate();
-                        listEmployeeClicked = true;
+
+                        // ClickedListButton is true and others are false
+                        clickedListButton = true;
+                        clickedAddCook = false;
+                        clickedAddWaiter = false;
+                        clickedCalculateExpense = false;
+                    }
+                });
+
+        // Adding actionListener to the addCookButton which in the buttonPanel
+        addCookButton.addActionListener(
+                new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // remove panel according to which one is clicked before this button
+                        if (clickedListButton)
+                            actionPanel.remove(listEmployeePanel);
+                        else if (clickedAddCook)
+                            actionPanel.remove(addCookPanel);
+                        else if (clickedAddWaiter)
+                            actionPanel.remove(addWaiterPanel);
+                        else if (clickedCalculateExpense)
+                            actionPanel.remove(calculateExpensesPanel);
+
+                        addCookPanel = new AddCookPanel(restaurant);
+                        actionPanel.add(addCookPanel);
+                        actionPanel.repaint();
+                        actionPanel.revalidate();
+
+                        // ClickedAddCook is true and others are false
+                        clickedAddCook = true;
+                        clickedListButton = false;
+                        clickedAddWaiter = false;
+                        clickedCalculateExpense = false;
                     }
                 });
 

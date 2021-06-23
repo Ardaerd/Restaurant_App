@@ -20,7 +20,7 @@ public class RestaurantGUI extends JPanel {
         // Initializing components
         orderPanel = new JPanel();
         tabPanel = new JTabbedPane();
-        tabPanel.setPreferredSize(new Dimension(main.SIZE-20,main.SIZE-50));
+        tabPanel.setPreferredSize(new Dimension(main.WIDTH-20,main.HEIGHT-50));
         restaurant = new Restaurant();
         restaurantPanel = new RestaurantPanel(restaurant);
 
